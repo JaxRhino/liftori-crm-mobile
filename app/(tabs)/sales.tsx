@@ -48,14 +48,14 @@ export default function SalesScreen() {
         onChange={setTab}
         options={[
           { key: "pipeline", label: `Pipeline (${deals.data?.length ?? 0})` },
-          { key: "contacts", label: `Contacts (${contacts.data?.length ?? 0})` },
+          { key: "contacts", label: `Customers (${contacts.data?.length ?? 0})` },
         ]}
       />
 
       <View style={{ height: theme.spacing.md }} />
 
       <Button
-        label={tab === "pipeline" ? "+ New deal" : "+ New contact"}
+        label={tab === "pipeline" ? "+ New deal" : "+ New customer"}
         onPress={() => router.push(tab === "pipeline" ? "/deal/new" : "/contact/new")}
       />
 
@@ -76,7 +76,7 @@ export default function SalesScreen() {
       ) : contacts.isError ? (
         <ErrorView message={(contacts.error as Error)?.message} />
       ) : (contacts.data ?? []).length === 0 ? (
-        <EmptyState icon="people-outline" title="No contacts yet" />
+        <EmptyState icon="people-outline" title="No customers yet" />
       ) : (
         <ContactsList contacts={contacts.data!} />
       )}

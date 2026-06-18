@@ -63,7 +63,7 @@ function RoofXOperationsScreen() {
         value={tab}
         onChange={setTab}
         options={[
-          { key: "jobs", label: `Work Orders (${workOrders.data?.length ?? 0})` },
+          { key: "jobs", label: `Jobs (${workOrders.data?.length ?? 0})` },
           { key: "schedule", label: `Schedule (${schedule.data?.length ?? 0})` },
         ]}
       />
@@ -71,7 +71,7 @@ function RoofXOperationsScreen() {
 
       {tab === "jobs" ? (
         <View style={{ marginBottom: theme.spacing.md }}>
-          <Button label="+ New work order" onPress={() => router.push("/workorder/new")} />
+          <Button label="+ New job" onPress={() => router.push("/workorder/new")} />
         </View>
       ) : null}
 
@@ -81,7 +81,7 @@ function RoofXOperationsScreen() {
         ) : workOrders.isError ? (
           <ErrorView message={(workOrders.error as Error)?.message} />
         ) : (workOrders.data ?? []).length === 0 ? (
-          <EmptyState icon="construct-outline" title="No work orders" subtitle="Jobs created in the CRM appear here." />
+          <EmptyState icon="construct-outline" title="No jobs yet" subtitle="Jobs created in the CRM appear here." />
         ) : (
           <View style={{ gap: theme.spacing.md }}>
             {workOrders.data!.map((w) => (
@@ -91,7 +91,7 @@ function RoofXOperationsScreen() {
                     style={{ color: theme.colors.text, fontSize: theme.fontSize.base, fontWeight: "700", flex: 1 }}
                     numberOfLines={1}
                   >
-                    {w.title ?? w.work_order_number ?? "Work order"}
+                    {w.title ?? w.work_order_number ?? "Job"}
                   </Text>
                   {w.status ? <Badge label={w.status} tone={toneForStatus(w.status)} /> : null}
                 </View>

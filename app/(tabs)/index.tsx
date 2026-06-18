@@ -27,7 +27,7 @@ const ACTIVITY_ROUTE = {
 const ACTIVITY_LABEL = {
   deal: "deal",
   estimate: "estimate",
-  work_order: "work order",
+  work_order: "job",
 } as const;
 
 export default function DashboardScreen() {
