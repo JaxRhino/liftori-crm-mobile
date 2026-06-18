@@ -16,6 +16,8 @@ export type DashboardStats = {
 export type ActivityItem = {
   id: string;
   kind: "deal" | "estimate" | "work_order";
+  /** Raw CRM record uuid — used to route into the record detail screen. */
+  recordId: string;
   title: string;
   subtitle: string;
   at: string | null;
@@ -109,6 +111,7 @@ export async function fetchRecentActivity(): Promise<ActivityItem[]> {
     items.push({
       id: `deal-${d.id}`,
       kind: "deal",
+      recordId: String(d.id),
       title: d.title ?? "Deal",
       subtitle: `Stage: ${d.stage ?? "—"}`,
       at: d.last_activity_at ?? d.created_at,
@@ -118,6 +121,7 @@ export async function fetchRecentActivity(): Promise<ActivityItem[]> {
     items.push({
       id: `est-${e.id}`,
       kind: "estimate",
+      recordId: String(e.id),
       title: e.title ?? e.estimate_number ?? "Estimate",
       subtitle: `Status: ${e.status ?? "—"}`,
       at: e.created_at,
@@ -127,6 +131,7 @@ export async function fetchRecentActivity(): Promise<ActivityItem[]> {
     items.push({
       id: `wo-${w.id}`,
       kind: "work_order",
+      recordId: String(w.id),
       title: w.title ?? w.work_order_number ?? "Work order",
       subtitle: `Status: ${w.status ?? "—"}`,
       at: w.created_at,
