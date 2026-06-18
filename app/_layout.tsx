@@ -35,11 +35,11 @@ export default function RootLayout() {
               <Stack.Screen name="(tabs)" />
               <Stack.Screen
                 name="contact/[id]"
-                options={{ ...detailScreen, title: "Contact" }}
+                options={{ ...detailScreen, title: "Customer" }}
               />
               <Stack.Screen
                 name="contact/new"
-                options={{ ...detailScreen, title: "New Contact" }}
+                options={{ ...detailScreen, title: "New Customer" }}
               />
               <Stack.Screen
                 name="deal/[id]"
@@ -59,11 +59,11 @@ export default function RootLayout() {
               />
               <Stack.Screen
                 name="workorder/[id]"
-                options={{ ...detailScreen, title: "Work Order" }}
+                options={{ ...detailScreen, title: "Job" }}
               />
               <Stack.Screen
                 name="workorder/new"
-                options={{ ...detailScreen, title: "New Work Order" }}
+                options={{ ...detailScreen, title: "New Job" }}
               />
               {/* CSC (kitchen-exhaust-cleaning) field flow — gated at runtime; the
                   routes are always registered (harmless on RoofX, never navigated to). */}
