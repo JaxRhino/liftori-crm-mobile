@@ -3,12 +3,13 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/ScreenContainer";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
+import { Badge, toneForStatus } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
 import { LoadingView, ErrorView, EmptyState } from "@/components/ui/StateViews";
-import { useContact } from "@/lib/hooks/useSales";
+import { useContact, useDealsForContact } from "@/lib/hooks/useSales";
+import { useWorkOrdersForContact } from "@/lib/hooks/useOperations";
 import { theme } from "@/lib/theme";
-import { fmtMoney, initials } from "@/lib/format";
+import { fmtMoney, fmtCurrency, fmtDate, fmtDateTime, initials } from "@/lib/format";
 
 export default function ContactDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -17,9 +18,9 @@ export default function ContactDetail() {
 
   if (isLoading) return <ScreenContainer scroll={false}><LoadingView /></ScreenContainer>;
   if (isError) return <ScreenContainer scroll={false}><ErrorView message={(error as Error)?.message} /></ScreenContainer>;
-  if (!c) return <ScreenContainer scroll={false}><EmptyState icon="person-outline" title="Contact not found" /></ScreenContainer>;
+  if (!c) return <ScreenContainer scroll={false}><EmptyState icon="person-outline" title="Customer not found" /></ScreenContainer>;
 
-  const name = `${c.first_name ?? ""} ${c.last_name ?? ""}`.trim() || "Unnamed contact";
+  const name = `${c.first_name ?? ""} ${c.last_name ?? ""}`.trim() || "Unnamed customer";
   const address = [c.property_address, c.property_city, c.property_state, c.property_zip].filter(Boolean).join(", ");
 
   return (
@@ -68,6 +69,9 @@ export default function ContactDetail() {
         </View>
       </View>
 
+      <DealsSection contactId={c.id} />
+      <JobsSection contactId={c.id} />
+
       {c.notes ? (
         <Card style={{ marginTop: theme.spacing.md }}>
           <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.sm, marginBottom: 4 }}>Notes</Text>
@@ -75,6 +79,100 @@ export default function ContactDetail() {
         </Card>
       ) : null}
     </ScreenContainer>
+  );
+}
+
+function SectionHeader({ title, count }: { title: string; count?: number }) {
+  return (
+    <Text
+      style={{
+        color: theme.colors.text,
+        fontSize: theme.fontSize.lg,
+        fontWeight: "700",
+        marginTop: theme.spacing.lg,
+        marginBottom: theme.spacing.sm,
+      }}
+    >
+      {title}
+      {count != null ? ` (${count})` : ""}
+    </Text>
+  );
+}
+
+function DealsSection({ contactId }: { contactId: string }) {
+  const router = useRouter();
+  const { data, isLoading, isError } = useDealsForContact(contactId);
+
+  return (
+    <View>
+      <SectionHeader title="Deals" count={data?.length} />
+      {isLoading ? (
+        <Card><Text style={{ color: theme.colors.textMuted }}>Loading deals…</Text></Card>
+      ) : isError ? (
+        <Card><Text style={{ color: theme.colors.danger }}>Couldn't load deals.</Text></Card>
+      ) : (data ?? []).length === 0 ? (
+        <Card><Text style={{ color: theme.colors.textMuted }}>No deals yet for this customer.</Text></Card>
+      ) : (
+        <View style={{ gap: theme.spacing.sm }}>
+          {data!.map((d) => (
+            <Card key={d.id} onPress={() => router.push(`/deal/${d.id}`)}>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", gap: 8 }}>
+                <Text style={{ color: theme.colors.text, fontSize: theme.fontSize.base, fontWeight: "700", flex: 1 }} numberOfLines={1}>
+                  {d.title ?? "Deal"}
+                </Text>
+                <Text style={{ color: theme.colors.text, fontSize: theme.fontSize.base, fontWeight: "800" }}>
+                  {fmtCurrency(d.deal_value)}
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginTop: theme.spacing.sm }}>
+                {d.stage ? <Badge label={d.stage} tone={toneForStatus(d.stage)} /> : null}
+                {d.expected_close_date ? (
+                  <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.xs }}>
+                    Close {fmtDate(d.expected_close_date)}
+                  </Text>
+                ) : null}
+              </View>
+            </Card>
+          ))}
+        </View>
+      )}
+    </View>
+  );
+}
+
+function JobsSection({ contactId }: { contactId: string }) {
+  const router = useRouter();
+  const { data, isLoading, isError } = useWorkOrdersForContact(contactId);
+
+  return (
+    <View>
+      <SectionHeader title="Jobs" count={data?.length} />
+      {isLoading ? (
+        <Card><Text style={{ color: theme.colors.textMuted }}>Loading jobs…</Text></Card>
+      ) : isError ? (
+        <Card><Text style={{ color: theme.colors.danger }}>Couldn't load jobs.</Text></Card>
+      ) : (data ?? []).length === 0 ? (
+        <Card><Text style={{ color: theme.colors.textMuted }}>No jobs yet for this customer.</Text></Card>
+      ) : (
+        <View style={{ gap: theme.spacing.sm }}>
+          {data!.map((w) => (
+            <Card key={w.id} onPress={() => router.push(`/workorder/${w.id}`)}>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", gap: 8 }}>
+                <Text style={{ color: theme.colors.text, fontSize: theme.fontSize.base, fontWeight: "700", flex: 1 }} numberOfLines={1}>
+                  {w.title ?? w.work_order_number ?? "Job"}
+                </Text>
+                {w.status ? <Badge label={w.status} tone={toneForStatus(w.status)} /> : null}
+              </View>
+              {w.scheduled_start ? (
+                <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.xs, marginTop: theme.spacing.sm }}>
+                  Scheduled {fmtDateTime(w.scheduled_start)}
+                </Text>
+              ) : null}
+            </Card>
+          ))}
+        </View>
+      )}
+    </View>
   );
 }
 
