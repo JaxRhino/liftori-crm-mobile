@@ -20,7 +20,7 @@ export default function WorkOrderDetail() {
 
   if (isLoading) return <ScreenContainer scroll={false}><LoadingView /></ScreenContainer>;
   if (isError) return <ScreenContainer scroll={false}><ErrorView message={(error as Error)?.message} /></ScreenContainer>;
-  if (!w) return <ScreenContainer scroll={false}><EmptyState icon="construct-outline" title="Work order not found" /></ScreenContainer>;
+  if (!w) return <ScreenContainer scroll={false}><EmptyState icon="construct-outline" title="Job not found" /></ScreenContainer>;
 
   const address = workOrderAddress(w);
 
@@ -28,7 +28,7 @@ export default function WorkOrderDetail() {
     <ScreenContainer>
       <View style={{ marginVertical: theme.spacing.md }}>
         <Text style={{ color: theme.colors.text, fontSize: theme.fontSize.xl, fontWeight: "800" }}>
-          {w.title ?? w.work_order_number ?? "Work order"}
+          {w.title ?? w.work_order_number ?? "Job"}
         </Text>
         <View style={{ flexDirection: "row", gap: 8, marginTop: theme.spacing.sm }}>
           {w.status ? <Badge label={w.status} tone={toneForStatus(w.status)} /> : null}
@@ -38,7 +38,7 @@ export default function WorkOrderDetail() {
       </View>
 
       <View style={{ marginBottom: theme.spacing.md }}>
-        <Button label="Edit work order" variant="secondary" onPress={() => router.push(`/workorder/new?id=${w.id}`)} />
+        <Button label="Edit job" variant="secondary" onPress={() => router.push(`/workorder/new?id=${w.id}`)} />
       </View>
 
       <Card

@@ -79,7 +79,7 @@ export default function WorkOrderForm() {
   const selectedCrew = (crews.data ?? []).find((c) => c.id === f.assigned_crew_id);
 
   const onSave = () => {
-    if (!f.title?.trim()) { Alert.alert("Add a title", "Give the work order a title."); return; }
+    if (!f.title?.trim()) { Alert.alert("Add a title", "Give the job a title."); return; }
     let scheduled_start: string | null = null;
     if (date) {
       const d = new Date(`${date}T${time || "09:00"}:00`);
@@ -99,7 +99,7 @@ export default function WorkOrderForm() {
 
   return (
     <ScreenContainer>
-      <Stack.Screen options={{ title: editing ? "Edit Work Order" : "New Work Order" }} />
+      <Stack.Screen options={{ title: editing ? "Edit Job" : "New Job" }} />
       <View style={{ height: theme.spacing.md }} />
 
       <Card style={{ marginBottom: theme.spacing.md }}>
@@ -117,7 +117,7 @@ export default function WorkOrderForm() {
         <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.sm, marginBottom: 6 }}>Customer</Text>
         <Pressable onPress={() => setPickContact(true)} style={pickStyle}>
           <Text style={{ color: selectedContact ? theme.colors.text : theme.colors.textMuted, fontSize: theme.fontSize.base }}>
-            {selectedContact ? contactName(selectedContact) : "Select a contact"}
+            {selectedContact ? contactName(selectedContact) : "Select a customer"}
           </Text>
           <Ionicons name="chevron-down" size={18} color={theme.colors.textMuted} />
         </Pressable>
@@ -156,9 +156,9 @@ export default function WorkOrderForm() {
         <Input label="Internal notes" value={f.notes ?? ""} onChangeText={set("notes")} multiline style={{ minHeight: 60, textAlignVertical: "top" }} />
       </Card>
 
-      <Button label={save.isPending ? "Saving…" : editing ? "Save work order" : "Create work order"} loading={save.isPending} onPress={onSave} />
+      <Button label={save.isPending ? "Saving…" : editing ? "Save job" : "Create job"} loading={save.isPending} onPress={onSave} />
 
-      <Sheet visible={pickContact} onClose={() => setPickContact(false)} title="Select contact">
+      <Sheet visible={pickContact} onClose={() => setPickContact(false)} title="Select customer">
         <View style={{ maxHeight: 360 }}>
           {(contacts.data ?? []).map((c) => (
             <Pressable key={c.id} onPress={() => { setF((p) => ({ ...p, contact_id: c.id })); setPickContact(false); }} style={rowStyle}>
