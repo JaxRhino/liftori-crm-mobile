@@ -6,6 +6,7 @@ import {
   fetchContacts,
   fetchDeal,
   fetchDeals,
+  fetchDealsForContact,
   fetchSalesStages,
   updateContact,
   updateDeal,
@@ -28,6 +29,14 @@ export function useContact(id: string) {
 
 export function useDeals() {
   return useQuery({ queryKey: ["deals"], queryFn: fetchDeals });
+}
+
+export function useDealsForContact(contactId: string) {
+  return useQuery({
+    queryKey: ["contact-deals", contactId],
+    queryFn: () => fetchDealsForContact(contactId),
+    enabled: !!contactId,
+  });
 }
 
 export function useDeal(id: string) {

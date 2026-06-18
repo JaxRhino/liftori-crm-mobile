@@ -6,6 +6,7 @@ import {
   fetchSchedule,
   fetchWorkOrder,
   fetchWorkOrders,
+  fetchWorkOrdersForContact,
   updateWorkOrder,
   updateWorkOrderStatus,
   type WorkOrderInput,
@@ -35,6 +36,14 @@ export function useSaveWorkOrder() {
 
 export function useWorkOrders() {
   return useQuery({ queryKey: ["work-orders"], queryFn: fetchWorkOrders });
+}
+
+export function useWorkOrdersForContact(contactId: string) {
+  return useQuery({
+    queryKey: ["contact-jobs", contactId],
+    queryFn: () => fetchWorkOrdersForContact(contactId),
+    enabled: !!contactId,
+  });
 }
 
 export function useWorkOrder(id: string) {
