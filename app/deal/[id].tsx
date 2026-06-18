@@ -59,7 +59,7 @@ export default function DealDetail() {
         onPress={d.contact ? () => router.push(`/contact/${d.contact!.id}`) : undefined}
         style={{ gap: theme.spacing.sm, marginBottom: theme.spacing.md }}
       >
-        <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.sm }}>Contact</Text>
+        <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.sm }}>Customer</Text>
         <Text style={{ color: theme.colors.text, fontSize: theme.fontSize.base, fontWeight: "700" }}>
           {contactName(d.contact)}
         </Text>

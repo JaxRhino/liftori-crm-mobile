@@ -70,7 +70,7 @@ export default function DealForm() {
         <Input label="Title" value={f.title ?? ""} onChangeText={set("title")} placeholder="Roof replacement — Oak St" />
         <Input label="Service type" value={f.service_type ?? ""} onChangeText={set("service_type")} placeholder="Re-roof, repair, inspection…" />
 
-        <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.sm, marginBottom: 6 }}>Contact</Text>
+        <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.sm, marginBottom: 6 }}>Customer</Text>
         <Pressable
           onPress={() => setPickContact(true)}
           style={{
@@ -80,7 +80,7 @@ export default function DealForm() {
           }}
         >
           <Text style={{ color: selectedContact ? theme.colors.text : theme.colors.textMuted, fontSize: theme.fontSize.base }}>
-            {selectedContact ? contactName(selectedContact) : "Select a contact"}
+            {selectedContact ? contactName(selectedContact) : "Select a customer"}
           </Text>
           <Ionicons name="chevron-down" size={18} color={theme.colors.textMuted} />
         </Pressable>
@@ -117,7 +117,7 @@ export default function DealForm() {
 
       <Button label={save.isPending ? "Saving…" : editing ? "Save changes" : "Create deal"} loading={save.isPending} onPress={onSave} />
 
-      <Sheet visible={pickContact} onClose={() => setPickContact(false)} title="Select contact">
+      <Sheet visible={pickContact} onClose={() => setPickContact(false)} title="Select customer">
         <View style={{ maxHeight: 360 }}>
           {(contacts.data ?? []).map((c) => (
             <Pressable
@@ -130,7 +130,7 @@ export default function DealForm() {
             </Pressable>
           ))}
           {(contacts.data ?? []).length === 0 ? (
-            <Text style={{ color: theme.colors.textMuted }}>No contacts yet — create one first.</Text>
+            <Text style={{ color: theme.colors.textMuted }}>No customers yet — create one first.</Text>
           ) : null}
         </View>
       </Sheet>
