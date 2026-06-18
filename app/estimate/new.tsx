@@ -149,7 +149,7 @@ export default function EstimateForm() {
           style={{ backgroundColor: theme.colors.surface, borderWidth: 1, borderColor: theme.colors.border, borderRadius: theme.radius.md, paddingHorizontal: theme.spacing.md, paddingVertical: theme.spacing.md - 2, flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: theme.spacing.md }}
         >
           <Text style={{ color: selectedContact ? theme.colors.text : theme.colors.textMuted, fontSize: theme.fontSize.base }}>
-            {selectedContact ? contactName(selectedContact) : "Select a contact"}
+            {selectedContact ? contactName(selectedContact) : "Select a customer"}
           </Text>
           <Ionicons name="chevron-down" size={18} color={theme.colors.textMuted} />
         </Pressable>
@@ -219,7 +219,7 @@ export default function EstimateForm() {
 
       <Button label={save.isPending ? "Saving…" : editing ? "Save estimate" : "Create estimate"} loading={save.isPending} onPress={onSave} />
 
-      <Sheet visible={pickContact} onClose={() => setPickContact(false)} title="Select contact">
+      <Sheet visible={pickContact} onClose={() => setPickContact(false)} title="Select customer">
         <View style={{ maxHeight: 360 }}>
           {(contacts.data ?? []).map((c) => (
             <Pressable key={c.id} onPress={() => { setContactIdState(c.id); setPickContact(false); }} style={{ paddingVertical: theme.spacing.md, borderBottomWidth: 1, borderBottomColor: theme.colors.border }}>
