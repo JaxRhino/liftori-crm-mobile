@@ -11,10 +11,16 @@
  * the web CRM — harden before onboarding paying strangers).
  */
 import "react-native-url-polyfill/auto";
+import { Platform } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { createClient } from "@supabase/supabase-js";
 import { tenantConfig } from "./config";
 
+// Native: persist the session in SecureStore (encrypted Keychain/Keystore).
+// Web (the in-admin preview / web export): expo-secure-store has no web impl
+// (`getValueWithKeyAsync is not a function`), so leave storage undefined and let
+// supabase-js use localStorage. Without this, getSession() throws on web and the
+// auth gate spins forever.
 const ExpoSecureStoreAdapter = {
   getItem: (key: string) => SecureStore.getItemAsync(key),
   setItem: (key: string, value: string) => SecureStore.setItemAsync(key, value),
@@ -26,7 +32,7 @@ export const supabase = createClient(
   tenantConfig.supabaseAnonKey,
   {
     auth: {
-      storage: ExpoSecureStoreAdapter as any,
+      storage: Platform.OS === "web" ? undefined : (ExpoSecureStoreAdapter as any),
       autoRefreshToken: true,
       persistSession: true,
       detectSessionInUrl: false,
