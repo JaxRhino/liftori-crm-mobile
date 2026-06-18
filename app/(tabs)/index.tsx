@@ -1,4 +1,4 @@
-import { RefreshControl, Text, View } from "react-native";
+import { Pressable, RefreshControl, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/ScreenContainer";
@@ -15,6 +15,19 @@ const ACTIVITY_ICON = {
   deal: "trending-up-outline",
   estimate: "document-text-outline",
   work_order: "construct-outline",
+} as const;
+
+// Map each activity kind to its CRM record detail route.
+const ACTIVITY_ROUTE = {
+  deal: "/deal",
+  estimate: "/estimate",
+  work_order: "/workorder",
+} as const;
+
+const ACTIVITY_LABEL = {
+  deal: "deal",
+  estimate: "estimate",
+  work_order: "work order",
 } as const;
 
 export default function DashboardScreen() {
@@ -131,16 +144,21 @@ export default function DashboardScreen() {
         ) : (
           <Card style={{ gap: 0, paddingVertical: 0 }}>
             {(activity.data ?? []).map((a, i) => (
-              <View
+              <Pressable
                 key={a.id}
-                style={{
+                accessibilityRole="button"
+                accessibilityLabel={`Open ${ACTIVITY_LABEL[a.kind]}: ${a.title}`}
+                onPress={() => router.push(`${ACTIVITY_ROUTE[a.kind]}/${a.recordId}`)}
+                style={({ pressed }) => ({
                   flexDirection: "row",
                   alignItems: "center",
                   gap: 12,
+                  minHeight: 56,
                   paddingVertical: theme.spacing.md,
                   borderTopWidth: i === 0 ? 0 : 1,
                   borderTopColor: theme.colors.border,
-                }}
+                  opacity: pressed ? 0.6 : 1,
+                })}
               >
                 <Ionicons name={ACTIVITY_ICON[a.kind]} size={20} color={accent} />
                 <View style={{ flex: 1 }}>
@@ -157,7 +175,8 @@ export default function DashboardScreen() {
                 <Text style={{ color: theme.colors.textMuted, fontSize: theme.fontSize.xs }}>
                   {timeAgo(a.at)}
                 </Text>
-              </View>
+                <Ionicons name="chevron-forward" size={18} color={theme.colors.textMuted} />
+              </Pressable>
             ))}
           </Card>
         )}
