@@ -1,0 +1,59 @@
+{
+  "cli": {
+    "version": ">= 10.0.0",
+    "appVersionSource": "local"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": { "buildType": "apk" },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://wjdythxmmpkexbllqrkw.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqZHl0aHhtbXBrZXhibGxxcmt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5NTA4NTIsImV4cCI6MjA5NjUyNjg1Mn0.oYzN3cAmmi4UynMLKXVwRz0498HLs4fCnGjKXfT5hLU",
+        "EXPO_PUBLIC_PLATFORM_ID": "6be83acc-d777-439c-becf-a41fb77614aa",
+        "EXPO_PUBLIC_APP_NAME": "RoofX",
+        "EXPO_PUBLIC_ACCENT_COLOR": "#0EA5E9"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": { "buildType": "apk" },
+      "channel": "preview",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://wjdythxmmpkexbllqrkw.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqZHl0aHhtbXBrZXhibGxxcmt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5NTA4NTIsImV4cCI6MjA5NjUyNjg1Mn0.oYzN3cAmmi4UynMLKXVwRz0498HLs4fCnGjKXfT5hLU",
+        "EXPO_PUBLIC_PLATFORM_ID": "6be83acc-d777-439c-becf-a41fb77614aa",
+        "EXPO_PUBLIC_APP_NAME": "RoofX",
+        "EXPO_PUBLIC_ACCENT_COLOR": "#0EA5E9"
+      }
+    },
+    "production": {
+      "android": { "buildType": "apk" },
+      "autoIncrement": true,
+      "channel": "production",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://wjdythxmmpkexbllqrkw.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqZHl0aHhtbXBrZXhibGxxcmt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5NTA4NTIsImV4cCI6MjA5NjUyNjg1Mn0.oYzN3cAmmi4UynMLKXVwRz0498HLs4fCnGjKXfT5hLU",
+        "EXPO_PUBLIC_PLATFORM_ID": "6be83acc-d777-439c-becf-a41fb77614aa",
+        "EXPO_PUBLIC_APP_NAME": "RoofX",
+        "EXPO_PUBLIC_ACCENT_COLOR": "#0EA5E9"
+      }
+    },
+    "csc": {
+      "distribution": "internal",
+      "android": { "buildType": "apk" },
+      "channel": "csc",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://spgainjpxualjtbatfmk.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwZ2FpbmpweHVhbGp0YmF0Zm1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMTMzODYsImV4cCI6MjA5Njc4OTM4Nn0.bQckTNILfG8nz4_TChbiPc7ni78Ity6qx9tJr1AVFcs",
+        "EXPO_PUBLIC_PLATFORM_ID": "88888888-0002-0000-0000-000000000001",
+        "EXPO_PUBLIC_APP_NAME": "CSC Field",
+        "EXPO_PUBLIC_ACCENT_COLOR": "#f59e0b"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
