@@ -125,6 +125,17 @@ export async function fetchWorkOrder(id: string): Promise<WorkOrder | null> {
   return wo;
 }
 
+/** Jobs (work orders) belonging to one customer — for the customer detail screen. */
+export async function fetchWorkOrdersForContact(contactId: string): Promise<WorkOrder[]> {
+  const { data, error } = await supabase
+    .from("ops_work_orders")
+    .select("*")
+    .eq("contact_id", contactId)
+    .order("scheduled_start", { ascending: false, nullsFirst: false });
+  if (error) throw error;
+  return (data ?? []) as WorkOrder[];
+}
+
 export const WORK_ORDER_STATUSES = [
   "new",
   "scheduled",

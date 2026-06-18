@@ -114,6 +114,17 @@ export async function fetchDeal(id: string): Promise<Deal | null> {
   return deal;
 }
 
+/** Deals belonging to one customer — for the customer detail screen. */
+export async function fetchDealsForContact(contactId: string): Promise<Deal[]> {
+  const { data, error } = await supabase
+    .from("customer_pipeline")
+    .select("*")
+    .eq("contact_id", contactId)
+    .order("last_activity_at", { ascending: false, nullsFirst: false });
+  if (error) throw error;
+  return (data ?? []) as Deal[];
+}
+
 export async function fetchSalesStages(): Promise<Stage[]> {
   // Prefer the default "sales"/"deal" pipeline; fall back to the first one.
   const { data: defs, error: defErr } = await supabase
@@ -216,7 +227,7 @@ export async function updateDeal(id: string, patch: DealInput): Promise<void> {
 }
 
 export function contactName(c?: Contact | null): string {
-  if (!c) return "Unknown contact";
+  if (!c) return "Unknown customer";
   const n = `${c.first_name ?? ""} ${c.last_name ?? ""}`.trim();
-  return n || c.email || c.phone || "Unnamed contact";
+  return n || c.email || c.phone || "Unnamed customer";
 }
